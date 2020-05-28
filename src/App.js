@@ -7,6 +7,7 @@ function App() {
 
   const [value, setValue] = useState({
     courses: [],
+    input: ''
   });
 
   const getData = async () => {
@@ -30,6 +31,7 @@ function App() {
                 cl:link    ?link ;
                 cl:desc    ?desc ;
           OPTIONAL {?c     cl:feature  ?feature . }
+          FILTER regex(?name, "${value.input}") 
         }`
     };
 
@@ -42,7 +44,7 @@ function App() {
       console.log(data);
 
       // Convert Data
-      const formatted_data = data.results.bindings.map((courses, index) => formatter(courses, index));
+      const formatted_data = data.results.bindings.map((course, index) => formatter(course, index));
       console.log(formatted_data)
 
       setValue({
@@ -66,9 +68,17 @@ function App() {
     }
   }
 
+  const handleChange = event => {
+    setValue({
+      ...value,
+      'input': event.target.value
+    })
+  }
+
   return (
     <div className="App">
       <header className="App-header">
+        <input onChange={handleChange} type="text" />
         <button onClick={getData}>Get List</button>
         <ol>
           {value.courses.map((item, i) => <li key={i}>{item.name}</li>)}
