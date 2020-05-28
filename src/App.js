@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import './App.css';
@@ -7,11 +7,6 @@ function App() {
 
   const [value, setValue] = useState({
     courses: [],
-  });
-
-  useEffect(() => {
-    // Update the document title using the browser API
-
   });
 
   const getData = async () => {
@@ -47,28 +42,16 @@ function App() {
       console.log(data);
 
       // Convert Data
-      // const formatted_data = data.results.bindings.map((courses, index) => formatter(courses, index));
-      // console.log(formatted_data)
+      const formatted_data = data.results.bindings.map((courses, index) => formatter(courses, index));
+      console.log(formatted_data)
 
-      // setValue({
-      //   ...value,
-      //   courses: formatted_data
-      // });
+      setValue({
+        ...value,
+        courses: formatted_data
+      });
     } catch (err) {
       console.error(err);
     }
-  }
-
-  const handleChange = (event) => {
-    setValue({
-      ...value,
-      [event.target.name]: event.target.value
-    });
-  }
-
-  const handleSubmit = (event) => {
-    console.log(JSON.stringify(value));
-    event.preventDefault();
   }
 
   const formatter = (course, index) => {
@@ -88,7 +71,7 @@ function App() {
       <header className="App-header">
         <button onClick={getData}>Get List</button>
         <ol>
-          {/* {value.courses.map((item, i) => <li key={i}>{item.name}</li>)} */}
+          {value.courses.map((item, i) => <li key={i}>{item.name}</li>)}
         </ol>
         <div>
         </div>
